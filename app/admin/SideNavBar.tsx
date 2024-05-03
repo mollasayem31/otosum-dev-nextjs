@@ -219,7 +219,7 @@ const SideNav: React.FC = () => {
         <ul>
           {/* Pass isExpanded to MenuItem component */}
           <MenuItem
-            href="/dashboard"
+            href="/admin/dashboard"
             Icon={<LayoutDashboard />}
             label="Dashboard"
             isExpanded={isSidebarExpanded}

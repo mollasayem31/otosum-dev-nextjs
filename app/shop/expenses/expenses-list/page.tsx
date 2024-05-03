@@ -1,10 +1,6 @@
 /* eslint-disable react-hooks/rules-of-hooks */
 "use client";
 
-import { Plus } from "lucide-react";
-import Link from "next/link";
-import InfoCardIcon from "../../../../public/icons/totalsalesicon.svg";
-import InfoCardCom from "./InfoCardCom";
 import { useBusinessNameContext } from "@/app/context/businessNameContext";
 import { useEffect, useState } from "react";
 import DropDownCom from "./DropDownCom";

@@ -23,13 +23,14 @@ const TopNavBar = () => {
         <div className="flex justify-center items-center">
           <div className="mr-5 ">
             <h1 className="font-bold capitalize text-lg text-black">
-              {user?.name}
+              {/* {user?.name} */}
+              Admin Panel
             </h1>
-            <h2 className=" text-md capitalize text-green-500">
+            {/* <h2 className=" text-md capitalize text-green-500">
               {user?.role || "user"}
-            </h2>
+            </h2> */}
           </div>
-          <div
+          {/* <div
             tabIndex={0}
             role="button"
             className="btn btn-ghost btn-circle avatar"
@@ -43,7 +44,7 @@ const TopNavBar = () => {
                 className="bg-transparent transition-all duration-300"
               />
             </div>
-          </div>
+          </div> */}
         </div>
         {/* <ul
           tabIndex={0}
