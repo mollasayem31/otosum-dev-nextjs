@@ -1,18 +1,12 @@
 "use client";
 import Image from "next/image";
-import AvatarIcon from "../../public/avater.png";
+import AvaterIcon from "../../public/avater.png";
 import { FaRegBell } from "react-icons/fa";
 import { AiOutlineMessage } from "react-icons/ai";
 import { useEffect, useState } from "react";
-interface IUser {
-  businessName: string;
-  email: string;
-  name: string;
-  role: string;
-}
 
 const TopNavBar = () => {
-  const [user, setUser] = useState<IUser>();
+  const [user, setUser] = useState({ name: "", role: "" });
 
   useEffect(() => {
     const storedUser = localStorage.getItem("user");
@@ -27,33 +21,29 @@ const TopNavBar = () => {
     >
       <div className="dropdown dropdown-end">
         <div className="flex justify-center items-center">
-          <div className="mr-5 p-2 text-2xl cursor-pointer bg-[#f2f2f2] rounded-full hover:text-black hover:bg-gradient-to-r hover:from-[#4391fd2b] hover:to-[#00fc4329]">
-            <FaRegBell />
-          </div>
-          <div className="mr-5 p-2 text-2xl cursor-pointer bg-[#f2f2f2] rounded-full hover:text-black hover:bg-gradient-to-r hover:from-[#4391fd48] hover:to-[#00fc4346]">
-            <AiOutlineMessage />
-          </div>
           <div className="mr-5 ">
             <h1 className="font-bold capitalize text-lg text-black">
               {user?.name}
             </h1>
-            <h2 className=" text-md capitalize text-green-500">{user?.role}</h2>
+            <h2 className=" text-md capitalize text-green-500">
+              {user?.role || "user"}
+            </h2>
           </div>
-          {/* <div
+          <div
             tabIndex={0}
             role="button"
             className="btn btn-ghost btn-circle avatar"
           >
             <div className="w-10 rounded-full cursor-pointer">
               <Image
-                src={AvatarIcon}
+                src={AvaterIcon}
                 alt="avater"
                 width={40}
                 height={40}
                 className="bg-transparent transition-all duration-300"
               />
             </div>
-          </div> */}
+          </div>
         </div>
         {/* <ul
           tabIndex={0}

@@ -6,14 +6,36 @@ import { FormEvent, useEffect, useState } from "react";
 import AuthHeaderCom from "../shared/AuthHeaderCom";
 import DropDownCom from "./DropDownCom";
 import toast from "react-hot-toast";
-
+import { useRouter } from "next/navigation";
+// SUBSCRIPTIONS INTERFACES
+interface IDES {
+  id: number;
+  value: string;
+}
+interface ISubscription {
+  subscriptionId: number;
+  subscriptionType: string;
+  name: string;
+  price: number;
+  shopCount: number;
+  des: IDES[];
+  paymentLInk: string;
+}
 interface Props {}
 
 const SignUpCom: NextComponentType<NextPageContext, {}, Props> = () => {
+  const router = useRouter();
   // Define state variables
   const [selectedItem, setSelectedItem] = useState<string>("Category");
   const [error, setError] = useState<string>("");
+  const [subsData, setSubsData] = useState<ISubscription>();
 
+  useEffect(() => {
+    const storedData = localStorage.getItem("subscription");
+    if (storedData) {
+      setSubsData(JSON.parse(storedData));
+    }
+  }, []);
   // Define form submit handler
   const RegisterHandler = async (
     e: FormEvent<HTMLFormElement>
@@ -34,15 +56,20 @@ const SignUpCom: NextComponentType<NextPageContext, {}, Props> = () => {
           businessName: formData.get("businessName") as string,
           category: selectedItem,
           role: "admin",
+          subscription: subsData,
         }),
       });
+      // Remove subscriptions detail from local storage
+      localStorage.removeItem("subscription");
 
       if (response.ok) {
         // Redirect to dashboard upon successful login
         // router.push("/dashboard");
         toast.success("Registered successfully");
+        router.push("/auth/sign-in");
       } else {
         setError("Invalid username or password");
+        toast.success("Invalid username or password");
       }
     } catch (error) {
       console.error("Error logging in:", error);
@@ -124,13 +151,11 @@ const SignUpCom: NextComponentType<NextPageContext, {}, Props> = () => {
           >
             Sign Up
           </button>
-
           {/* Error message */}
           {error && <p className="text-red-500 mt-2">{error}</p>}
-
           {/* Sign In link */}
           <p className="mt-5">
-            Already have an account?{" "}
+            Already have an account?
             <Link href="/auth/sign-in" className="text-blue-500">
               Sign In
             </Link>

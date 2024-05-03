@@ -1,11 +1,12 @@
 /* eslint-disable react-hooks/rules-of-hooks */
 "use client";
 
-import { FormEvent, useState } from "react";
+import { FormEvent, SetStateAction, useState } from "react";
 import { Plus } from "lucide-react";
 import toast, { Toaster } from "react-hot-toast";
 import { useBusinessNameContext } from "@/app/context/businessNameContext";
 import UploadImg from "./UploadImg";
+import DropDownCom from "./DropDownCom";
 
 interface FileData {
   fileName: string;
@@ -22,6 +23,7 @@ interface FormData {
 const page = () => {
   const { businessName } = useBusinessNameContext();
   const [selectedFile, setSelectedFile] = useState<FileData | null>(null);
+  const [shopType, setShopType] = useState<string | null>("");
   const handleAddExpenses = async (
     e: FormEvent<HTMLFormElement>
   ): Promise<void> => {
@@ -37,7 +39,7 @@ const page = () => {
           businessName: businessName,
           name: formData.get("name"),
           address: formData.get("address"),
-          type: formData.get("type"),
+          type: shopType,
           img: selectedFile,
         }),
       });
@@ -86,12 +88,9 @@ const page = () => {
           </div>
           <div className="flex flex-col gap-4   ">
             <label htmlFor="type">Type</label>
-            <input
-              type="text"
-              id="type"
-              name="type"
-              placeholder="Enter shop type"
-              className=" border-2 border-[#BBBABA] rounded-lg py-3 px-5 outline-none bg-transparent focus:border-black"
+            <DropDownCom
+              selectedItem={shopType}
+              setSelectedItem={setShopType}
             />
           </div>
           {/* <div className="flex flex-col gap-4">

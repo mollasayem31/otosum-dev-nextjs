@@ -9,7 +9,7 @@ export default function Home() {
           Sign In
         </button>
       </Link>
-      <Link href="/auth/sign-up">
+      <Link href="/auth/subscriptions">
         <button className="btn rounded-xl text-xl font-bold m-2">
           Sign up
         </button>

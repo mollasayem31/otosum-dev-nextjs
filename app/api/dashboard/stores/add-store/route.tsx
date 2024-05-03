@@ -17,8 +17,8 @@ interface IShop {
 async function generateShopId(db: any): Promise<number> {
   // Find the last used Expenses ID from the database
   const collection = db.collection("stores");
-  const lastShopIdDoc = await collection.findOne({}, { sort: { ShopId: -1 } });
-  const lastShopId = lastShopIdDoc ? lastShopIdDoc.ShopId : 0;
+  const lastShopIdDoc = await collection.findOne({}, { sort: { shopId: -1 } });
+  const lastShopId = lastShopIdDoc ? lastShopIdDoc.shopId : 0;
 
   // Increment the last Expenses ID to generate a new one
   const newShopId = lastShopId + 1;

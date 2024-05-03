@@ -2,6 +2,20 @@ import { NextRequest, NextResponse } from "next/server";
 import { connectToDatabase } from "../../utils/db";
 import { MongoClient } from "mongodb";
 
+// SUBSCRIPTIONS INTERFACES
+interface IDES {
+  id: number;
+  value: string;
+}
+interface ISubscription {
+  subscriptionId: number;
+  subscriptionType: string;
+  name: string;
+  price: number;
+  shopCount: number;
+  des: IDES[];
+  paymentLInk: string;
+}
 interface IUser {
   name: string;
   email: string;
@@ -9,6 +23,7 @@ interface IUser {
   category: string;
   password: string;
   role: string;
+  subscription:ISubscription
 }
 const uri = process.env.MONGODB_URI || "mongodb://localhost:27017"; // MongoDB connection string
 const options = {};
@@ -28,7 +43,7 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ message: "name is required" }, { status: 400 });
   // Connect to the database
   createDatabase(body.name);
-  const { db } = await connectToDatabase(body.businessName);
+  const { db } = await connectToDatabase("otosum-db");
   const collection = db.collection("users");
   // Create a new user in the database
   // Check if the user already exists in the database
@@ -54,6 +69,7 @@ export async function POST(req: NextRequest) {
     businessName: body.businessName,
     category: body.category,
     role: body.role,
+    subscription: body.subscription
   };
   console.log(newUser);
 

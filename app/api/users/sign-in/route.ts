@@ -10,10 +10,11 @@ export async function POST(req: NextRequest) {
     );
   }
   // Connect to the database
-  const { db } = await connectToDatabase(body.businessName);
+  const { db } = await connectToDatabase("otosum-db");
   const collection = db.collection("users");
   // Get all users from the database
   const user = await collection.findOne({
+    businessName: body.businessName,
     email: body.email,
     password: body.password,
   });
