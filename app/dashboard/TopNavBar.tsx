@@ -1,9 +1,9 @@
 "use client";
-import Image from "next/image";
-import AvatarIcon from "../../public/avater.png";
+import { useRouter } from "next/navigation";
 import { FaRegBell } from "react-icons/fa";
 import { AiOutlineMessage } from "react-icons/ai";
 import { useEffect, useState } from "react";
+import { LogOut } from "lucide-react";
 interface IUser {
   businessName: string;
   email: string;
@@ -12,6 +12,8 @@ interface IUser {
 }
 
 const TopNavBar = () => {
+  const router = useRouter();
+
   const [user, setUser] = useState<IUser>();
 
   useEffect(() => {
@@ -20,6 +22,12 @@ const TopNavBar = () => {
       setUser(JSON.parse(storedUser));
     }
   }, []);
+
+  const handelLogOut = () => {
+    localStorage.removeItem("user");
+    localStorage.removeItem("businessName");
+    return router.push("/auth/sign-in");
+  };
 
   return (
     <div
@@ -39,21 +47,16 @@ const TopNavBar = () => {
             </h1>
             <h2 className=" text-md capitalize text-green-500">{user?.role}</h2>
           </div>
-          {/* <div
-            tabIndex={0}
-            role="button"
-            className="btn btn-ghost btn-circle avatar"
-          >
-            <div className="w-10 rounded-full cursor-pointer">
-              <Image
-                src={AvatarIcon}
-                alt="avater"
-                width={40}
-                height={40}
-                className="bg-transparent transition-all duration-300"
-              />
+          <div className="tooltip tooltip-bottom" data-tip="Log Out">
+            <div
+              onClick={handelLogOut}
+              tabIndex={0}
+              role="button"
+              className="btn btn-ghost btn-circle hover:text-red-500 hover:bg-white"
+            >
+              <LogOut />
             </div>
-          </div> */}
+          </div>
         </div>
         {/* <ul
           tabIndex={0}
@@ -68,7 +71,9 @@ const TopNavBar = () => {
           <li className="hover:text-black hover:bg-gradient-to-r hover:from-[#4391fd2b] hover:to-[#00fc4329] rounded-full">
             <a>Settings</a>
           </li>
-          <li className="hover:text-black hover:bg-gradient-to-r hover:from-[#4391fd2b] hover:to-[#00fc4329] rounded-full">
+          <li
+            className="hover:text-black hover:bg-gradient-to-r hover:from-[#4391fd2b] hover:to-[#00fc4329] rounded-full"
+          >
             <a>Logout</a>
           </li>
         </ul> */}

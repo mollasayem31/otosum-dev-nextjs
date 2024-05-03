@@ -1,15 +1,16 @@
 "use client";
-import Image from "next/image";
-import AvaterIcon from "../../public/avater.png";
+
 import { FaRegBell } from "react-icons/fa";
 import { AiOutlineMessage } from "react-icons/ai";
 import Link from "next/link";
-import { X, Grip, ShoppingCart } from "lucide-react";
+import { ShoppingCart, LogOut } from "lucide-react";
 import { usePathname } from "next/navigation";
 import CalculatorLayoutCom from "../components/Calculator/CalculatorLayoutCom";
 import { useState, useEffect } from "react";
+import { useRouter } from "next/navigation";
 
 const TopNavBar = () => {
+  const router = useRouter();
   const path = usePathname();
   const [user, setUser] = useState({ name: "", role: "" });
 
@@ -19,6 +20,12 @@ const TopNavBar = () => {
       setUser(JSON.parse(storedUser));
     }
   }, []);
+
+  const handelLogOut = () => {
+    localStorage.removeItem("user");
+    localStorage.removeItem("businessName");
+    return router.push("/auth/sign-in");
+  };
   return (
     <div
       className={`navbar flex justify-end items-center px-5 bg-white mb-5 h-20 `}
@@ -49,19 +56,14 @@ const TopNavBar = () => {
             </h1>
             <h2 className=" text-md capitalize text-green-500">{user?.role}</h2>
           </div>
-          <div
-            tabIndex={0}
-            role="button"
-            className="btn btn-ghost btn-circle avatar"
-          >
-            <div className="w-10 rounded-full cursor-pointer">
-              <Image
-                src={AvaterIcon}
-                alt="avater"
-                width={40}
-                height={40}
-                className="bg-transparent transition-all duration-300"
-              />
+          <div className="tooltip tooltip-bottom" data-tip="Log Out">
+            <div
+              onClick={handelLogOut}
+              tabIndex={0}
+              role="button"
+              className="btn btn-ghost btn-circle hover:text-red-500 hover:bg-green-200"
+            >
+              <LogOut />
             </div>
           </div>
         </div>
@@ -78,7 +80,9 @@ const TopNavBar = () => {
           <li className="hover:text-black hover:bg-gradient-to-r hover:from-[#4391fd2b] hover:to-[#00fc4329] rounded-full">
             <a>Settings</a>
           </li>
-          <li className="hover:text-black hover:bg-gradient-to-r hover:from-[#4391fd2b] hover:to-[#00fc4329] rounded-full">
+          <li
+            className="hover:text-black hover:bg-gradient-to-r hover:from-[#4391fd2b] hover:to-[#00fc4329] rounded-full"
+          >
             <a>Logout</a>
           </li>
         </ul> */}
