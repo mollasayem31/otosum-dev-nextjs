@@ -28,15 +28,7 @@ interface Props {
 const TableRow: NextComponentType<NextPageContext, {}, Props> = ({
   expense,
 }) => {
-  const {
-    title,
-    category,
-    date,
-    warehouse,
-    amount,
-    note,
-    img: { fileImage },
-  } = expense;
+  const { title, category, date, warehouse, amount, note, img } = expense;
 
   return (
     <tr className="border border-[#F2F2F2] text-start capitalize">
@@ -44,14 +36,16 @@ const TableRow: NextComponentType<NextPageContext, {}, Props> = ({
       <td className="">
         <div className="flex items-center gap-2 justify-start text-start">
           <div className="avatar">
-            <div className="mask rounded-lg w-12 h-12 ">
-              <Image
-                src={fileImage}
-                alt="Avatar Tailwind CSS Component"
-                width={100}
-                height={100}
-              />
-            </div>
+            {/* <div className="mask rounded-lg w-12 h-12 ">
+              {img.fileName && (
+                <Image
+                  src={img.fileName ? img.fileImage : ""}
+                  alt="Avatar Tailwind CSS Component"
+                  width={100}
+                  height={100}
+                />
+              )}
+            </div> */}
           </div>
           <h1>{title}</h1>
         </div>

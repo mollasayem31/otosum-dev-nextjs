@@ -28,11 +28,14 @@ const Page = () => {
   const [selectedFile, setSelectedFile] = useState<FileData | null>(null); // Change here
   const { businessName } = useBusinessNameContext();
   const [user, setUser] = useState({ name: "", role: "", email: "" });
+  const [shopName, setShopName] = useState<string | null>();
 
   useEffect(() => {
     const storedUser = localStorage.getItem("user");
+    const storeName = localStorage.getItem("shopName");
     if (storedUser) {
       setUser(JSON.parse(storedUser));
+      setShopName(storeName);
     }
   }, []);
 
@@ -56,6 +59,7 @@ const Page = () => {
         },
         body: JSON.stringify({
           businessName: businessName,
+          shopName: shopName,
           productName: formData.get("productName"),
           img: selectedFile, // Change here
           category: productCategory,

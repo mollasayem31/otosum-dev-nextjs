@@ -16,13 +16,14 @@ export async function POST(req: NextRequest) {
     const { db } = await connectToDatabase(body.businessName);
     const collection = db.collection("expenses");
     if (body.category === "all categories") {
-      const result = await collection.find({}).toArray();
+      const query = { shopName: body.shopName };
+      const result = await collection.find(query).toArray();
       // Return the products as a JSON response
       return NextResponse.json(result, { status: 200 });
     }
     // Filter products by category if provided
     else {
-      const query = { category: body.category };
+      const query = { category: body.category, shopName: body.shopName };
       const result = await collection.find(query).toArray();
       return NextResponse.json(result, { status: 200 });
     }

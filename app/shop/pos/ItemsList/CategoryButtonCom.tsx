@@ -1,5 +1,5 @@
 "use client";
-import { usePosGlobalState } from "../../../../context/PosGlobalStateContext";
+import { usePosGlobalState } from "../../../context/PosGlobalStateContext";
 import type { NextComponentType, NextPageContext } from "next";
 
 interface Props {

@@ -3,6 +3,7 @@ import { connectToDatabase } from "../../../utils/db";
 
 interface IProduct {
   businessName: string;
+  shopName: string;
   img: string;
   productId: number;
   productName: string;
@@ -79,6 +80,7 @@ export async function POST(req: NextRequest) {
     // Create a new product
     const newProduct: IProduct = {
       businessName: body.businessName,
+      shopName: body.shopName,
       productId: productId,
       productName: body.productName,
       img: body.img,

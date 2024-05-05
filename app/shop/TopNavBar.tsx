@@ -13,11 +13,15 @@ const TopNavBar = () => {
   const router = useRouter();
   const path = usePathname();
   const [user, setUser] = useState({ name: "", role: "" });
+  const [shopName, setShopName] = useState<string | null>();
 
   useEffect(() => {
     const storedUser = localStorage.getItem("user");
+    const storeName = localStorage.getItem("shopName");
+    setShopName(storeName);
     if (storedUser) {
       setUser(JSON.parse(storedUser));
+     
     }
   }, []);
 
@@ -54,7 +58,7 @@ const TopNavBar = () => {
             <h1 className="font-bold capitalize text-lg text-black">
               {user?.name}
             </h1>
-            <h2 className=" text-md capitalize text-green-500">{user?.role}</h2>
+            <h2 className=" text-md capitalize text-green-500">{shopName}</h2>
           </div>
           <div className="tooltip tooltip-bottom" data-tip="Log Out">
             <div

@@ -1,7 +1,7 @@
 "use client";
 import { ChevronDown, ChevronUp } from "lucide-react";
 import type { NextComponentType, NextPageContext } from "next";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useBusinessNameContext } from "@/app/context/businessNameContext";
 
 interface ICategory {
@@ -23,7 +23,14 @@ const ProductCategoryDropDownCom: NextComponentType<
 
   const [open, setOpen] = useState(false);
   const [productCategories, setProductCategories] = useState<ICategory[]>([]);
+  const [shopName, setShopName] = useState<string | null>();
 
+  useEffect(() => {
+    const storeName = localStorage.getItem("shopName");
+    if (storeName) {
+      setShopName(storeName);
+    }
+  }, []);
   const fetchData = async () => {
     try {
       if (!businessName) {
@@ -34,7 +41,7 @@ const ProductCategoryDropDownCom: NextComponentType<
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({ businessName }),
+        body: JSON.stringify({ businessName, shopName }),
       });
 
       if (!res.ok) {

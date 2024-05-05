@@ -31,6 +31,14 @@ const page = () => {
   const [expensesCategory, setExpensesCategory] = useState<string | null>(
     "all categories"
   );
+  const [shopName, setShopName] = useState<string | null>();
+
+  useEffect(() => {
+    const storeName = localStorage.getItem("shopName");
+    if (storeName) {
+      setShopName(storeName);
+    }
+  }, []);
   const handleAddExpenses = async (
     e: FormEvent<HTMLFormElement>
   ): Promise<void> => {
@@ -44,6 +52,7 @@ const page = () => {
         },
         body: JSON.stringify({
           businessName: businessName,
+          shopName: shopName,
           title: formData.get("title"),
           date: date,
           warehouse: formData.get("warehouse"),

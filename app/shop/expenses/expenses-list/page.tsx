@@ -27,6 +27,14 @@ const page = () => {
   const { businessName } = useBusinessNameContext();
   const [category, setCategory] = useState<string | null>("all categories");
   const [expenses, setExpenses] = useState<IExpenses[]>([]);
+  const [shopName, setShopName] = useState<string | null>();
+
+  useEffect(() => {
+    const storeName = localStorage.getItem("shopName");
+    if (storeName) {
+      setShopName(storeName);
+    }
+  }, []);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -39,7 +47,7 @@ const page = () => {
           headers: {
             "Content-Type": "application/json",
           },
-          body: JSON.stringify({ businessName, category }),
+          body: JSON.stringify({ businessName, category, shopName }),
         });
 
         if (!res.ok) {
@@ -54,7 +62,7 @@ const page = () => {
       }
     };
     fetchData();
-  }, [businessName, category]);
+  }, [businessName, category, shopName]);
 
   return (
     <>

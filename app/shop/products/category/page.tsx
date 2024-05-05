@@ -15,7 +15,14 @@ export default function Page() {
   const { businessName } = useBusinessNameContext();
   const [categories, setCategories] = useState<ICategory[]>([]);
   const [loadData, setLoadData] = useState(false);
+  const [shopName, setShopName] = useState<string | null>();
 
+  useEffect(() => {
+    const storeName = localStorage.getItem("shopName");
+    if (storeName) {
+      setShopName(storeName);
+    }
+  }, []);
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -27,7 +34,7 @@ export default function Page() {
           headers: {
             "Content-Type": "application/json",
           },
-          body: JSON.stringify({ businessName }),
+          body: JSON.stringify({ businessName, shopName }),
         });
 
         if (!res.ok) {
@@ -43,7 +50,7 @@ export default function Page() {
       }
     };
     fetchData();
-  }, [businessName, loadData]);
+  }, [businessName, loadData, shopName]);
 
   const handleAddCategory = async (
     e: FormEvent<HTMLFormElement>
@@ -61,6 +68,7 @@ export default function Page() {
           },
           body: JSON.stringify({
             businessName: businessName,
+            shopName: shopName,
             value: formData.get("categoryName"),
           }),
         }

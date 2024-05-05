@@ -3,6 +3,7 @@ import { connectToDatabase } from "../../../../utils/db";
 
 interface ICategory {
   businessName: string;
+  shopName: string;
   id: number;
   value: string;
 }
@@ -48,6 +49,7 @@ export async function POST(req: NextRequest) {
     const existingProduct = await collection.findOne({
       value: body.value,
       businessName: body.businessName,
+      shopName: body.shopName,
     });
 
     // If the product already exists, return an error
@@ -64,6 +66,7 @@ export async function POST(req: NextRequest) {
     // Create a new Expenses
     const newExpensesCategory: ICategory = {
       businessName: body.businessName,
+      shopName: body.shopName,
       id: expensesCategoryId,
       value: body.value,
     };

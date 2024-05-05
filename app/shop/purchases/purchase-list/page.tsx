@@ -1,10 +1,6 @@
 /* eslint-disable react-hooks/rules-of-hooks */
 "use client";
 
-import { Plus } from "lucide-react";
-import Link from "next/link";
-import InfoCardIcon from "../../../../public/icons/totalsalesicon.svg";
-import InfoCardCom from "./InfoCardCom";
 import { useBusinessNameContext } from "@/app/context/businessNameContext";
 import { useEffect, useState } from "react";
 import DropDownCom from "./DropDownCom";
@@ -31,7 +27,14 @@ const page = () => {
   const { businessName } = useBusinessNameContext();
   const [category, setCategory] = useState<string | null>("all categories");
   const [purchases, setPurchases] = useState<IExpenses[]>([]);
+  const [shopName, setShopName] = useState<string | null>();
 
+  useEffect(() => {
+    const storeName = localStorage.getItem("shopName");
+    if (storeName) {
+      setShopName(storeName);
+    }
+  }, []);
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -43,7 +46,7 @@ const page = () => {
           headers: {
             "Content-Type": "application/json",
           },
-          body: JSON.stringify({ businessName, category }),
+          body: JSON.stringify({ businessName, category, shopName }),
         });
 
         if (!res.ok) {
@@ -58,7 +61,7 @@ const page = () => {
       }
     };
     fetchData();
-  }, [businessName, category]);
+  }, [businessName, category, shopName]);
 
   return (
     <>

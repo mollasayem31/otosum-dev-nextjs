@@ -1,5 +1,5 @@
 import React from "react";
-import { usePosGlobalState } from "../../../../../context/PosGlobalStateContext";
+import { usePosGlobalState } from "../../../../context/PosGlobalStateContext";
 import { Minus, Plus, X } from "lucide-react";
 
 interface Props {}

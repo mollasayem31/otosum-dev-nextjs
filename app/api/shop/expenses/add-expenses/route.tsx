@@ -7,6 +7,7 @@ interface FileData {
 }
 interface IExpenses {
   businessName: string;
+  shopName: string;
   expensesId: number;
   title: string;
   date: string;
@@ -67,6 +68,7 @@ export async function POST(req: NextRequest) {
     // Create a new Expenses
     const newExpenses: IExpenses = {
       businessName: body.businessName,
+      shopName: body.shopName,
       expensesId: expensesId,
       title: body.title,
       date: body.date,

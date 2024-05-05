@@ -23,7 +23,8 @@ export async function POST(req: NextRequest) {
     const collection = db.collection("purchases-categories");
 
     // get all categories
-    const categories = await collection.find().toArray();
+    const query = {shopName:body.shopName}
+    const categories = await collection.find(query).toArray();
 
     return NextResponse.json(categories, { status: 201 });
   } catch (error) {

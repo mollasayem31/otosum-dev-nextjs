@@ -3,7 +3,7 @@
 import { useEffect, useState } from "react";
 import toast, { Toaster } from "react-hot-toast";
 import { useBusinessNameContext } from "@/app/context/businessNameContext";
-import { usePosGlobalState } from "../../../../context/PosGlobalStateContext";
+import { usePosGlobalState } from "../../../context/PosGlobalStateContext";
 import SelectedItemsCom from "./SelectedItemsCom/SelectedItemsCom";
 import { Banknote, CreditCard, ReceiptText } from "lucide-react";
 import { NextComponentType, NextPageContext } from "next";
@@ -17,12 +17,15 @@ const OrderSystemLayout: NextComponentType<NextPageContext, {}, Props> = (
   const [paymentMethod, setPaymentMethod] = useState("cash");
   const { selectedItemsArray, clearSelectedItems } = usePosGlobalState();
   const [isLoading, setIsLoading] = useState(false);
-  const [user, setUser] = useState({ name: "", role: "",email:"" });
+  const [user, setUser] = useState({ name: "", role: "", email: "" });
+  const [shopName, setShopName] = useState<string | null>();
 
   useEffect(() => {
     const storedUser = localStorage.getItem("user");
+    const storeName = localStorage.getItem("shopName");
     if (storedUser) {
       setUser(JSON.parse(storedUser));
+      setShopName(storeName);
     }
   }, []);
 
@@ -38,6 +41,7 @@ const OrderSystemLayout: NextComponentType<NextPageContext, {}, Props> = (
         },
         body: JSON.stringify({
           businessName: businessName,
+          shopName: shopName,
           products: selectedItemsArray,
           paymentMethod: paymentMethod,
           name: user.name,

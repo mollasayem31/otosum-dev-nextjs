@@ -5,6 +5,7 @@ interface ICategory {
   businessName: string;
   id: number;
   value: string;
+  shopName: string;
 }
 
 async function generateExpensesCategoryId(db: any): Promise<number> {
@@ -48,6 +49,7 @@ export async function POST(req: NextRequest) {
     const existingProduct = await collection.findOne({
       value: body.value,
       businessName: body.businessName,
+      shopName: body.shopName,
     });
 
     // If the product already exists, return an error
@@ -66,6 +68,7 @@ export async function POST(req: NextRequest) {
       businessName: body.businessName,
       id: expensesCategoryId,
       value: body.value,
+      shopName: body.shopName,
     };
     console.log(newExpensesCategory);
 

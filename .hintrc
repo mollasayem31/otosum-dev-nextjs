@@ -3,6 +3,15 @@
     "development"
   ],
   "hints": {
-    "axe/aria": "off"
+    "axe/aria": "off",
+    "button-type": "off",
+    "axe/name-role-value": "off",
+    "axe/forms": [
+      "off",
+      {
+        "label": "off"
+      }
+    ],
+    "axe/structure": "off"
   }
 }

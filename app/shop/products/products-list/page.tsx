@@ -39,6 +39,14 @@ const Page = () => {
   const [productCategory, setProductCategory] = useState<string | null>(
     "all categories"
   );
+  const [shopName, setShopName] = useState<string | null>();
+
+  useEffect(() => {
+    const storeName = localStorage.getItem("shopName");
+    if (storeName) {
+      setShopName(storeName);
+    }
+  }, []);
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -50,7 +58,11 @@ const Page = () => {
           headers: {
             "Content-Type": "application/json",
           },
-          body: JSON.stringify({ businessName, productCategory }),
+          body: JSON.stringify({
+            businessName,
+            productCategory,
+            shopName: shopName,
+          }),
         });
 
         if (!res.ok) {
@@ -65,7 +77,7 @@ const Page = () => {
       }
     };
     fetchData();
-  }, [businessName, productCategory]);
+  }, [businessName, productCategory, shopName]);
 
   return (
     <div className="p-5 m-5 bg-white rounded-2xl ">

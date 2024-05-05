@@ -13,6 +13,7 @@ interface IImage {
 
 interface IProduct {
   businessName: string;
+  shopName: string;
   img: IImage;
   productId: number;
   productName: string;
@@ -43,6 +44,14 @@ const FoodItemsCom: NextComponentType<NextPageContext, {}, Props> = (
   const { posCategoryData, setPosCategoryData } = usePosGlobalState();
   const [products, setProducts] = useState<IProduct[]>([]);
   const [isLoading, setIsLoading] = useState(true);
+  const [shopName, setShopName] = useState<string | null>();
+
+  useEffect(() => {
+    const storeName = localStorage.getItem("shopName");
+    if (storeName) {
+      setShopName(storeName);
+    }
+  }, []);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -58,6 +67,7 @@ const FoodItemsCom: NextComponentType<NextPageContext, {}, Props> = (
           },
           body: JSON.stringify({
             businessName,
+            shopName,
             productCategory: posCategoryData,
           }),
         });
@@ -76,7 +86,7 @@ const FoodItemsCom: NextComponentType<NextPageContext, {}, Props> = (
       }
     };
     fetchData();
-  }, [businessName, posCategoryData]);
+  }, [businessName, posCategoryData, shopName]);
 
   if (isLoading) {
     return <SkeletonCom />;

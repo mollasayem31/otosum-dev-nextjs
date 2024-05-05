@@ -15,19 +15,20 @@ export async function POST(req: NextRequest) {
     // Connect to the database
     const { db } = await connectToDatabase(body.businessName);
     const collection = db.collection("products");
-    if (body.productCategory === "all categories") {
-      const result = await collection.find({}).toArray();
-      // Return the products as a JSON response
-      return NextResponse.json(result, { status: 200 });
-    }
-    // Filter products by category if provided
-    else {
-      const query = { category: body.productCategory };
-      const result = await collection.find(query).toArray();
-      return NextResponse.json(result, { status: 200 });
-    }
 
-    // Return the products as a JSON response
+    if (body.productCategory === "all categories") {
+      // Query all categories for the provided shopName
+      const query = { shopName: body.shopName };
+      const result = await collection.find(query).toArray();
+      // Return the data as a JSON response
+      return NextResponse.json(result, { status: 200 });
+    } else {
+      // Filter products by category if provided
+      const query = { category: body.productCategory, shopName: body.shopName };
+      const result = await collection.find(query).toArray();
+      // Return the data as a JSON response
+      return NextResponse.json(result, { status: 200 });
+    }
   } catch (error) {
     console.error("Error:", error);
     return NextResponse.json(

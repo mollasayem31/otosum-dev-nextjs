@@ -15,7 +15,14 @@ const CatagoriesItemsCom: NextComponentType<NextPageContext, {}, Props> = (
   const { businessName } = useBusinessNameContext();
   const { posCategoryData, setPosCategoryData } = usePosGlobalState();
   const [productsCategories, setProductsCategories] = useState<ICategory[]>([]);
+  const [shopName, setShopName] = useState<string | null>();
 
+  useEffect(() => {
+    const storeName = localStorage.getItem("shopName");
+    if (storeName) {
+      setShopName(storeName);
+    }
+  }, []);
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -27,7 +34,7 @@ const CatagoriesItemsCom: NextComponentType<NextPageContext, {}, Props> = (
           headers: {
             "Content-Type": "application/json",
           },
-          body: JSON.stringify({ businessName }),
+          body: JSON.stringify({ businessName, shopName }),
         });
 
         if (!res.ok) {
@@ -36,14 +43,14 @@ const CatagoriesItemsCom: NextComponentType<NextPageContext, {}, Props> = (
         }
 
         const data = await res.json();
+        console.log(data);
         setProductsCategories(data);
-        // setExpensesCategories(data);
       } catch (error) {
         console.error("Failed to fetch data:", error);
       }
     };
     fetchData();
-  }, [businessName, setPosCategoryData, setProductsCategories]);
+  }, [businessName, setPosCategoryData, setProductsCategories, shopName]);
 
   return (
     <div className=" bg-white rounded-lg text-black grid grid-cols-3 gap-3 ">

@@ -34,7 +34,6 @@ const AddEmployeesPage: React.FC = () => {
   const { businessName } = useBusinessNameContext();
   const [selectedFile, setSelectedFile] = useState<FileData | null>(null);
   const [role, setRole] = useState("Select Role");
-  const [status, setStatus] = useState("Select Status");
   const [date, setDate] = useState<string>("");
   const [shopName, setShopName] = useState<string | null>("Select Shop Name");
 
@@ -61,7 +60,7 @@ const AddEmployeesPage: React.FC = () => {
             address: formData.get("address") as string,
             state: formData.get("state") as string,
             shopName: shopName,
-            status: status,
+            posPin: formData.get("posPin") as string,
             joiningDate: date,
             city: formData.get("city") as string,
             postalCode: formData.get("postalCode") as string,
@@ -107,6 +106,7 @@ const AddEmployeesPage: React.FC = () => {
                   placeholder="Type here"
                   name="firstName"
                   className="input input-bordered w-full bg-transparent"
+                  required
                 />
               </div>
               <div className="py-3">
@@ -121,6 +121,7 @@ const AddEmployeesPage: React.FC = () => {
                   placeholder="Type here"
                   name="lastName"
                   className="input input-bordered w-full  bg-transparent"
+                  required
                 />
               </div>
               <div className="py-3">
@@ -135,6 +136,7 @@ const AddEmployeesPage: React.FC = () => {
                   placeholder="Type here"
                   name="email"
                   className="input input-bordered w-full  bg-transparent"
+                  required
                 />
               </div>
               <div className="py-3">
@@ -149,6 +151,7 @@ const AddEmployeesPage: React.FC = () => {
                   name="phone"
                   placeholder="Type here"
                   className="input input-bordered w-full  bg-transparent"
+                  required
                 />
               </div>
             </div>
@@ -173,6 +176,7 @@ const AddEmployeesPage: React.FC = () => {
                 placeholder="Type here"
                 name="branch"
                 className="input input-bordered w-full  bg-transparent"
+                required
               />
             </div>
             <div className="py-3">
@@ -185,14 +189,10 @@ const AddEmployeesPage: React.FC = () => {
                 items={[
                   {
                     id: 1,
-                    value: "admin",
-                  },
-                  {
-                    id: 2,
                     value: "manager",
                   },
                   {
-                    id: 3,
+                    id: 2,
                     value: "employee",
                   },
                 ]}
@@ -207,6 +207,7 @@ const AddEmployeesPage: React.FC = () => {
                 placeholder="Type here"
                 name="address"
                 className="input input-bordered w-full bg-transparent"
+                required
               />
             </div>
             <div className="py-3">
@@ -218,9 +219,10 @@ const AddEmployeesPage: React.FC = () => {
                 name="state"
                 placeholder="Type here"
                 className="input input-bordered w-full bg-transparent"
+                required
               />
             </div>
-            <div className="py-3">
+            {/* <div className="py-3">
               <label className="block   text-sm mb-1" htmlFor="status">
                 Status
               </label>
@@ -238,7 +240,7 @@ const AddEmployeesPage: React.FC = () => {
                   },
                 ]}
               />
-            </div>
+            </div> */}
             <div className="py-3">
               <label className="block   text-sm  mb-1" htmlFor="joiningDate">
                 Joining Date
@@ -254,6 +256,7 @@ const AddEmployeesPage: React.FC = () => {
                 placeholder="Type here"
                 name="city"
                 className="input input-bordered w-full  bg-transparent"
+                required
               />
             </div>
             <div className="py-3">
@@ -265,6 +268,7 @@ const AddEmployeesPage: React.FC = () => {
                 name="postalCode"
                 placeholder="Type here"
                 className="input input-bordered w-full bg-transparent"
+                required
               />
             </div>
             <div className="py-3">
@@ -276,6 +280,19 @@ const AddEmployeesPage: React.FC = () => {
                 name="password"
                 placeholder="Type here"
                 className="input input-bordered w-full  bg-transparent"
+                required
+              />
+            </div>
+            <div className="py-3">
+              <label className="block text-sm  mb-1" htmlFor="posPin">
+                Pos Pin
+              </label>
+              <input
+                type="number"
+                name="posPin"
+                placeholder="Type here"
+                className="input input-bordered w-full  bg-transparent"
+                required
               />
             </div>
             <div className="col-span-2">
@@ -297,7 +314,6 @@ const AddEmployeesPage: React.FC = () => {
             </div>
           </div>
           {/* FORM BUTTON SECTION START */}
-
           {/* FORM BUTTON SECTION END */}
         </div>
       </form>

@@ -2,11 +2,12 @@ import type { NextComponentType, NextPageContext } from "next";
 import Image, { StaticImageData } from "next/image";
 import Link from "next/link";
 import { FaArrowRightLong } from "react-icons/fa6";
+import { useRouter } from "next/navigation";
 interface FileData {
   fileName: string;
   fileImage: string;
 }
-interface IShop {}
+
 interface Props {
   name: string;
   img: FileData;
@@ -16,10 +17,14 @@ const InfoCardCom: NextComponentType<NextPageContext, {}, Props> = ({
   name,
   img,
 }: Props) => {
-  // const { img, name } = store;
-  // const fileImage = img.length > 0 ? img[0].fileImage : "";
+  const router = useRouter();
+  const handelClick = () => {
+    router.push("/shop/pos/order");
+    return localStorage.setItem("shopName", name);
+  };
+
   return (
-    <Link href="/shop/pos/order">
+    <div onClick={handelClick} className="cursor-pointer">
       <div className="card  bg-white shadow-xl m-5 w-[250px] h-[380px]">
         <figure className="px-5 pt-5">
           <Image
@@ -53,7 +58,7 @@ const InfoCardCom: NextComponentType<NextPageContext, {}, Props> = ({
           </div> */}
         </div>
       </div>
-    </Link>
+    </div>
   );
 };
 

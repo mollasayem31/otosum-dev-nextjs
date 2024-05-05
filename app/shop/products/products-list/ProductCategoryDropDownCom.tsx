@@ -1,7 +1,7 @@
 "use client";
 import { ChevronDown, ChevronUp } from "lucide-react";
 import type { NextComponentType, NextPageContext } from "next";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useBusinessNameContext } from "@/app/context/businessNameContext";
 
 interface ICategory {
@@ -22,18 +22,26 @@ const DropDownCom: NextComponentType<NextPageContext, {}, Props> = ({
 
   const [open, setOpen] = useState(false);
   const [productsCategories, setProductsCategories] = useState<ICategory[]>([]);
+  const [shopName, setShopName] = useState<string | null>();
+
+  useEffect(() => {
+    const storeName = localStorage.getItem("shopName");
+    if (storeName) {
+      setShopName(storeName);
+    }
+  }, []);
 
   const fetchData = async () => {
     try {
       if (!businessName) {
         return;
       }
-      const res = await fetch("/api/shop/expenses/categories", {
+      const res = await fetch("/api/shop/products/categories", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({ businessName }),
+        body: JSON.stringify({ businessName, shopName }),
       });
 
       if (!res.ok) {

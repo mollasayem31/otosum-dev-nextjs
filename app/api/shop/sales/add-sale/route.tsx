@@ -52,6 +52,7 @@ export async function POST(req: NextRequest) {
     const newSales = {
       saleId: saleId,
       businessName: body.businessName,
+      shopName: body.shopName,
       paymentMethod: body.paymentMethod,
       name: body.name,
       email: body.email,

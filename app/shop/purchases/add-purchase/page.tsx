@@ -1,7 +1,7 @@
 /* eslint-disable react-hooks/rules-of-hooks */
 "use client";
 
-import { FormEvent, useState } from "react";
+import { FormEvent, useEffect, useState } from "react";
 import UploadImg from "./UploadImg";
 import { Plus } from "lucide-react";
 import DatePickerCom from "./DatePikerCom";
@@ -31,6 +31,14 @@ const page = () => {
   const [purchaseCategory, setPurchaseCategory] = useState<string | null>(
     "Select Categories"
   );
+  const [shopName, setShopName] = useState<string | null>();
+
+  useEffect(() => {
+    const storeName = localStorage.getItem("shopName");
+    if (storeName) {
+      setShopName(storeName);
+    }
+  }, []);
   const handleAddExpenses = async (
     e: FormEvent<HTMLFormElement>
   ): Promise<void> => {
@@ -44,6 +52,7 @@ const page = () => {
         },
         body: JSON.stringify({
           businessName: businessName,
+          shopName: shopName,
           title: formData.get("title"),
           date: date,
           warehouse: formData.get("warehouse"),

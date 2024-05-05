@@ -251,12 +251,18 @@ const SideNav: React.FC = () => {
             label="Dashboard"
             isExpanded={isSidebarExpanded}
           /> */}
-          <DropDownItem
+          {/* <DropDownItem
             Icon={<Box />}
             label="POS"
             isExpanded={isSidebarExpanded}
             items={posItems}
-          />
+          /> */}
+          <MenuItem
+            href="/shop/pos"
+            Icon={<Box />}
+            label="POS"
+            isExpanded={isSidebarExpanded}
+          /> 
 
           <DropDownItem
             Icon={<Layers3 />}

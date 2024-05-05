@@ -9,6 +9,7 @@ interface IImage {
 }
 interface IProduct {
   businessName: string;
+  shopName: string;
   img: IImage;
   productId: number;
   productName: string;
@@ -32,6 +33,7 @@ interface IProduct {
 
 interface IProductItem {
   businessName: string;
+  shopName: string;
   img: IImage;
   productId: number;
   productName: string;
@@ -61,6 +63,7 @@ const FoodCardCom: NextComponentType<NextPageContext, {}, Props> = ({
 
   const {
     businessName,
+    shopName,
     img: { fileImage, fileName },
     productId,
     productName,
@@ -84,6 +87,7 @@ const FoodCardCom: NextComponentType<NextPageContext, {}, Props> = ({
 
   const item: IProductItem = {
     businessName: businessName,
+    shopName: shopName,
     img: { fileName: fileName, fileImage: fileImage },
     productId: productId,
     productName: productName,
