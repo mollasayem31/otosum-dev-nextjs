@@ -7,8 +7,10 @@ import React, {
   useState,
   useEffect,
   Children,
+  useRef,
 } from "react";
-import { usePathname, useRouter } from "next/navigation";
+import { useRouter } from "next/navigation";
+import PosPinInputCom from "./PosPinInputCom";
 
 // USER INTERFACES
 interface IUser {
@@ -24,31 +26,30 @@ interface IAuthValues {
   businessName: string | undefined;
 }
 
-const AuthContext = createContext<IAuthValues | undefined>(undefined);
+const PosAuthContext = createContext<IAuthValues | undefined>(undefined);
 
-const AuthContextProvider: React.FC<{ children: React.ReactNode }> = ({
+const PosAuthContextProvider: React.FC<{ children: React.ReactNode }> = ({
   children,
 }) => {
   const router = useRouter();
-  const pathName = usePathname();
 
   const [userData, setUserData] = useState<IUser | undefined>();
   const [businessName, setBusinessName] = useState<string | undefined>();
+  const [posAccess, setPosAccess] = useState<string | null>("");
+  const [load, setLoad] = useState<boolean | null>(false);
 
   useEffect(() => {
     const userLocalData = localStorage.getItem("user");
     const businessNameLocalData = localStorage.getItem("businessName");
+    const posAccessLocal = localStorage.getItem("posAccess");
     if (userLocalData && businessNameLocalData) {
       setUserData(JSON.parse(userLocalData));
       setBusinessName(businessNameLocalData);
+      setPosAccess(posAccessLocal);
     } else {
       router.push("/auth/sign-in");
     }
-  }, [router]);
-
-  if (pathName !== "/shop/pos") {
-    localStorage.removeItem("posAccess");
-  }
+  }, [router, load]);
 
   const value: IAuthValues = {
     userData,
@@ -56,18 +57,22 @@ const AuthContextProvider: React.FC<{ children: React.ReactNode }> = ({
   };
 
   return (
-    <AuthContext.Provider value={value}>
-      {userData && businessName ? children : null}
-    </AuthContext.Provider>
+    <PosAuthContext.Provider value={value}>
+      {posAccess === "access granted" ? (
+        children
+      ) : (
+        <PosPinInputCom setLoad={setLoad} />
+      )}
+    </PosAuthContext.Provider>
   );
 };
 
-const useAuthContext = (): IAuthValues => {
-  const context = useContext(AuthContext);
+const usePosAuthContext = (): IAuthValues => {
+  const context = useContext(PosAuthContext);
   if (!context) {
     throw new Error("useGlobalState must be used within a GlobalStateProvider");
   }
   return context;
 };
 
-export { AuthContextProvider, useAuthContext };
+export { PosAuthContextProvider, usePosAuthContext };

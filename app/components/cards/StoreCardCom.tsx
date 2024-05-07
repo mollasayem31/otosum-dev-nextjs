@@ -19,7 +19,7 @@ const InfoCardCom: NextComponentType<NextPageContext, {}, Props> = ({
 }: Props) => {
   const router = useRouter();
   const handelClick = () => {
-    router.push("/shop/pos/order");
+    router.push("/shop/pos");
     return localStorage.setItem("shopName", name);
   };
 

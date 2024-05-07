@@ -7,6 +7,7 @@ interface Props {
 }
 
 const shopLayout = ({ children }: Props) => {
+
   return (
     <AuthContextProvider>
       <div className="flex min-h-screen w-full">

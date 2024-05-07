@@ -16,8 +16,8 @@ export async function POST(req: NextRequest) {
     const collection = db.collection("employees");
 
     // Filter products by category if provided
-    const query = {email:body.email,password:body.password};
-    const result = await collection.find(query).toArray();
+    const query = { email: body.email, password: body.password };
+    const result = await collection.findOne(query);
     return NextResponse.json(result, { status: 200 });
 
     // Return the products as a JSON response

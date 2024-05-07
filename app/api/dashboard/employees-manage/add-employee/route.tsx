@@ -8,6 +8,7 @@ interface FileData {
 interface IEmployee {
   businessName: string;
   employeeId: number;
+  posPin:number;
   firstName: string;
   lastName: string;
   email: string;
@@ -79,6 +80,7 @@ export async function POST(req: NextRequest) {
     const newEmployee: IEmployee = {
       employeeId: employeeId,
       businessName: body.businessName,
+      posPin:body.posPin,
       firstName: body.firstName,
       lastName: body.lastName,
       email: body.email,

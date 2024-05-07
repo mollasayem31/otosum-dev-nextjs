@@ -60,7 +60,7 @@ const SignInCom: NextComponentType<NextPageContext, {}, Props> = (
           toast.error("An error occurred while logging in");
         }
       } else {
-        const response = await fetch("/api/users/employees", {
+        const response = await fetch("/api/users/employee", {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
@@ -86,13 +86,13 @@ const SignInCom: NextComponentType<NextPageContext, {}, Props> = (
             shopName: data.shopName,
             posPin: data.posPin,
             email: data.email,
-            name: data.name,
+            name: data.firstName + data.lastName,
             role: data.role,
           };
           const value = JSON.stringify(newData);
           localStorage.setItem(key, value);
           // Redirect to dashboard based on user role
-          router.push("/shop/dashboard");
+          router.push("/shop/pos");
         } else {
           toast.error("An error occurred while logging in");
         }

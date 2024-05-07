@@ -48,6 +48,8 @@ const page = () => {
     };
     fetchData();
   }, [businessName]);
+
+  localStorage.removeItem("shopName");
   return (
     <div className="min-h-[100vh] w-full">
       {/*SALES INFO SECTION START */}

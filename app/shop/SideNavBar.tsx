@@ -5,9 +5,9 @@ import OtosumIcon from "../../public/otosum.svg";
 import OIcon from "../../public/o-icon.svg";
 import { FaChevronDown, FaChevronLeft, FaChevronRight } from "react-icons/fa";
 import Link from "next/link";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import { useGlobalState } from "../context/GlobalStateContext";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import {
   Minus,
   Box,
@@ -23,7 +23,14 @@ import {
   BarChartBig,
   Settings,
 } from "lucide-react";
-
+// USER INTERFACES
+interface IUser {
+  businessName: string;
+  name: string;
+  email: string;
+  category: string;
+  role: string;
+}
 interface MenuItemProps {
   href: string;
   Icon: React.ReactNode;
@@ -54,6 +61,7 @@ const MenuItem: React.FC<MenuItemProps> = ({
   isExpanded,
 }) => {
   const pathname = usePathname();
+
   const isActive = pathname === href;
 
   const listItemClasses = `
@@ -175,6 +183,15 @@ const DropDownItem: React.FC<DropDownItemProps> = ({
 };
 const SideNav: React.FC = () => {
   const { toggleSidebar, isSidebarExpanded } = useGlobalState();
+  const router = useRouter();
+  const [userData, setUserData] = useState<IUser | undefined>();
+
+  useEffect(() => {
+    const userLocalData = localStorage.getItem("user");
+    if (userLocalData) {
+      setUserData(JSON.parse(userLocalData));
+    }
+  }, [router]);
 
   const sidebarWidth = isSidebarExpanded ? "w-[15rem]" : "w-[4rem]";
   const posItems: ItemProps[] = [
@@ -205,6 +222,7 @@ const SideNav: React.FC = () => {
     { id: 2, href: "/shop/purchases/add-purchase", label: "Add Purchase" },
     { id: 3, href: "/shop/purchases/category", label: "Categories" },
   ];
+
   return (
     <div
       className={` inset-y-0 left-0 bg-card  bg-[#0b1642] ${sidebarWidth} transition-all duration-300`}
@@ -251,6 +269,14 @@ const SideNav: React.FC = () => {
             label="Dashboard"
             isExpanded={isSidebarExpanded}
           /> */}
+          {userData && userData.role === "admin" ? (
+            <MenuItem
+              href="/dashboard"
+              Icon={<LayoutDashboard />}
+              label="Dashboard"
+              isExpanded={isSidebarExpanded}
+            />
+          ) : null}
           {/* <DropDownItem
             Icon={<Box />}
             label="POS"
@@ -262,7 +288,7 @@ const SideNav: React.FC = () => {
             Icon={<Box />}
             label="POS"
             isExpanded={isSidebarExpanded}
-          /> 
+          />
 
           <DropDownItem
             Icon={<Layers3 />}
@@ -301,7 +327,6 @@ const SideNav: React.FC = () => {
             isExpanded={isSidebarExpanded}
             items={expensesItems}
           />
-
           <MenuItem
             href="/shop/calendar"
             Icon={<CalendarDays />}
