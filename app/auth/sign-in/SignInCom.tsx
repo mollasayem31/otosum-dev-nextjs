@@ -5,15 +5,17 @@ import Image from "next/image";
 import Otosum from "../../../public/otosum.svg";
 import Link from "next/link";
 import AuthHeaderCom from "../shared/AuthHeaderCom";
-import { FormEvent } from "react";
+import { FormEvent, useState } from "react";
 import toast, { Toaster } from "react-hot-toast";
 import { useRouter } from "next/navigation";
+import DropDownCom from "./DropDownCom";
 interface Props {}
 
 const SignInCom: NextComponentType<NextPageContext, {}, Props> = (
   props: Props
 ) => {
   const router = useRouter();
+  const [role, setRole] = useState("Select Role");
   // Define form submit handler
   const signInHandler = async (
     e: FormEvent<HTMLFormElement>
@@ -21,55 +23,84 @@ const SignInCom: NextComponentType<NextPageContext, {}, Props> = (
     e.preventDefault();
 
     const formData = new FormData(e.target as HTMLFormElement);
-    try {
-      const response = await fetch("/api/users/sign-in", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          businessName: formData.get("businessName") as string,
-          email: formData.get("email") as string,
-          password: formData.get("password") as string,
-        }),
-      });
 
-      if (response.ok) {
-        //Give user a toast message upon successful login
-        toast.success("Sign in successfully");
-        // Redirect to dashboard upon successful login
-        const data = await response.json();
-        //set business name to local storage
-        localStorage.setItem("businessName", data.businessName);
-        //set user to local storage
-        const key = "user";
-        const newData = {
-          businessName: data.businessName,
-          category: data.category,
-          email: data.email,
-          name: data.name,
-          role: data.role,
-        };
-        const value = JSON.stringify(newData);
-        localStorage.setItem(key, value);
-        // Redirect to dashboard based on user role
-        if (data.role === "admin" || data.role === "admin") {
-          router.push("/dashboard");
-        } else if (data.role === "manager") {
+    try {
+      if (role === "admin") {
+        const response = await fetch("/api/users/sign-in", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            businessName: formData.get("businessName") as string,
+            email: formData.get("email") as string,
+            password: formData.get("password") as string,
+          }),
+        });
+        if (response.ok) {
+          //Give user a toast message upon successful login
+          toast.success("Sign in successfully");
+          // Redirect to dashboard upon successful login
+          const data = await response.json();
+          //set business name to local storage
+          localStorage.setItem("businessName", data.businessName);
+          //set user to local storage
+          const key = "user";
+          const newData = {
+            businessName: data.businessName,
+            email: data.email,
+            name: data.name,
+            role: data.role,
+          };
+          const value = JSON.stringify(newData);
+          localStorage.setItem(key, value);
+          // Redirect to dashboard based on user role
           router.push("/dashboard");
         } else {
-          router.push("/shop/dashboard");
+          toast.error("An error occurred while logging in");
         }
       } else {
-        toast.error("An error occurred while logging in");
+        const response = await fetch("/api/users/employees", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            businessName: formData.get("businessName") as string,
+            email: formData.get("email") as string,
+            password: formData.get("password") as string,
+          }),
+        });
+        if (response.ok) {
+          //Give user a toast message upon successful login
+          toast.success("Sign in successfully");
+          // Redirect to dashboard upon successful login
+          const data = await response.json();
+          //set business name to local storage
+          localStorage.setItem("businessName", data.businessName);
+          localStorage.setItem("shopName", data.shopName);
+          //set user to local storage
+          const key = "user";
+          const newData = {
+            businessName: data.businessName,
+            shopName: data.shopName,
+            posPin: data.posPin,
+            email: data.email,
+            name: data.name,
+            role: data.role,
+          };
+          const value = JSON.stringify(newData);
+          localStorage.setItem(key, value);
+          // Redirect to dashboard based on user role
+          router.push("/shop/dashboard");
+        } else {
+          toast.error("An error occurred while logging in");
+        }
       }
     } catch (error) {
       toast.error("An error occurred while logging in call");
     }
-    // Reset form
-    // formData.reset();
   };
-
   // Render page content
   return (
     <div className="min-h-screen min-w-screen bg-white text-black  grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 2xl:grid-cols-2 justify-start items-center">
@@ -106,6 +137,27 @@ const SignInCom: NextComponentType<NextPageContext, {}, Props> = (
               placeholder="Business Name"
               name="businessName"
               className="input flex-col border border-black w-full bg-transparent mt-1 focus:border-none focus:outline-green-500"
+            />
+          </div>
+          <div className="w-[350px] lg:w-[400px] mt-5">
+            <label className="text-black font-medium"> Role</label>
+            <DropDownCom
+              selectedItem={role}
+              setSelectedItem={setRole}
+              items={[
+                {
+                  id: 1,
+                  value: "admin",
+                },
+                {
+                  id: 2,
+                  value: "manager",
+                },
+                {
+                  id: 2,
+                  value: "employee",
+                },
+              ]}
             />
           </div>
           <div className="w-[350px] lg:w-[400px] mt-5">

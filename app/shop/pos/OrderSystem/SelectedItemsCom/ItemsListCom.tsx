@@ -10,7 +10,6 @@ const ItemsListCom: React.FC<Props> = () => {
     increaseQuantity,
     decreaseQuantity,
     removeItem,
-    clearSelectedItems,
     setSelectedItemsArray,
   } = usePosGlobalState();
 
@@ -67,7 +66,6 @@ const ItemsListCom: React.FC<Props> = () => {
                       onChange={(e) => handleQuantityChange(productId, e)}
                       className="w-12 border rounded-md text-center bg-transparent text-black"
                     />
-
                     <button
                       className="bg-blue-500 text-white rounded-md"
                       onClick={() => increaseQuantity(productId)}

@@ -7,12 +7,14 @@ import { usePosGlobalState } from "../../../context/PosGlobalStateContext";
 import SelectedItemsCom from "./SelectedItemsCom/SelectedItemsCom";
 import { Banknote, CreditCard, ReceiptText } from "lucide-react";
 import { NextComponentType, NextPageContext } from "next";
+import { useRouter } from "next/navigation";
 
 interface Props {}
 
 const OrderSystemLayout: NextComponentType<NextPageContext, {}, Props> = (
   props: Props
 ) => {
+  const router = useRouter();
   const { businessName } = useBusinessNameContext();
   const [paymentMethod, setPaymentMethod] = useState("cash");
   const { selectedItemsArray, clearSelectedItems } = usePosGlobalState();
@@ -32,7 +34,6 @@ const OrderSystemLayout: NextComponentType<NextPageContext, {}, Props> = (
   const handleCheckout = async (e: any) => {
     e.preventDefault();
     setIsLoading(true); // Set loading state to true when starting fetch
-
     try {
       const response = await fetch("/api/shop/sales/add-sale", {
         method: "POST",
@@ -60,6 +61,9 @@ const OrderSystemLayout: NextComponentType<NextPageContext, {}, Props> = (
     } finally {
       setIsLoading(false); // Set loading state to false when fetch completes
     }
+    //set selected products Items to local storage
+    localStorage.setItem("selectedItems", JSON.stringify(selectedItemsArray));
+    router.push("/shop/pos/order-completed");
   };
 
   return (
