@@ -10,6 +10,14 @@ import SkeletonCom from "@/app/components/shared/SkeletonCom";
 const page = () => {
   const { businessName } = useBusinessNameContext();
   const [sales, setSales] = useState<[]>([]);
+  const [shopName, setShopName] = useState<string | null>();
+
+  useEffect(() => {
+    const storeName = localStorage.getItem("shopName");
+    if (storeName) {
+      setShopName(storeName);
+    }
+  }, []);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -22,7 +30,7 @@ const page = () => {
           headers: {
             "Content-Type": "application/json",
           },
-          body: JSON.stringify({ businessName }),
+          body: JSON.stringify({ businessName, shopName }),
         });
 
         if (!res.ok) {
@@ -37,7 +45,7 @@ const page = () => {
       }
     };
     fetchData();
-  }, [businessName]);
+  }, [businessName, shopName]);
 
   return (
     <div className="p-5 m-5 bg-white rounded-2xl w-ful">

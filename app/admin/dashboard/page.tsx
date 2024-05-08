@@ -2,7 +2,6 @@
 
 /* eslint-disable react-hooks/rules-of-hooks */
 import InfoCardCom from "./InfoCardCom";
-import StoreCardCom from "../../components/cards/StoreCardCom";
 import TotalSalesIcon from "../../../public/icons/totalsalesicon.svg";
 import { useEffect, useState } from "react";
 import SubscriptionsCardCom from "./SubscriptionsCardCom";
@@ -108,7 +107,6 @@ const page = () => {
             "Content-Type": "application/json",
           },
         });
-
         if (!res.ok) {
           console.error("Failed to fetch data:", res.status);
           return;
