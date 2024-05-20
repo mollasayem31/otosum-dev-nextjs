@@ -1,7 +1,6 @@
 "use client";
 
 /* eslint-disable react-hooks/rules-of-hooks */
-import InfoCardCom from "./components/InfoCardCom";
 import StoreCardCom from "../components/cards/StoreCardCom";
 import TotalSalesIcon from "../../public/icons/totalsalesicon.svg";
 import { useBusinessNameContext } from "@/app/context/businessNameContext";
@@ -11,6 +10,7 @@ import PurchaseCardCom from "./components/PurchaseCardCom";
 import ExpensesCardCom from "./components/ExpensesCardCom";
 import ProductsCardCom from "./components/ProductsCardCom";
 import RevenueCardCom from "./components/RevenueCardCom";
+import GrandRevenueCardCom from "./components/GrandRevenueCardCom";
 import SalesListCom from "./components/SalesListCom";
 interface FileData {
   fileName: string;
@@ -131,26 +131,31 @@ const page = () => {
             bgGradient="text-white bg-gradient-to-r from-[#F85900] to-[#FAC250]"
           />
           <RevenueCardCom
-            label="Total Revenue"
+            label="Total Sales Revenue"
             icon={TotalSalesIcon}
             bgGradient="text-white bg-gradient-to-r from-green-500 to-blue-500"
           />
           <ExpensesCardCom
             label="Total Expenses"
             icon={TotalSalesIcon}
-            bgGradient="text-white bg-gradient-to-r from-[#DC1818] to-[#FF6565]"
+            bgGradient="text-white bg-gradient-to-r from-[#454CEA] to-[#5596CF]"
           />
           <PurchaseCardCom
             label="Total Purchase"
             icon={TotalSalesIcon}
             bgGradient="text-white bg-gradient-to-r from-[#F85900] to-[#FAC250]"
           />
+          <GrandRevenueCardCom
+            label="Total Sales Revenue"
+            icon={TotalSalesIcon}
+            bgGradient="text-white bg-gradient-to-r from-green-500 to-blue-500"
+          />
         </div>
       </div>
       {/*SALES INFO SECTION END  */}
       {/*STORES SECTION START  */}
       <div>
-        <h1 className="text-black bg-white p-5 m-5 text-xl font-bold rounded-lg">
+        <h1 className="text-black  px-5 py-3 m-5 text-xl font-bold rounded-lg">
           Stores
         </h1>
         <div className="flex justify-start items-center flex-wrap gap-5 px-5 ">

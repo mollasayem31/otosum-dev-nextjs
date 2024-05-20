@@ -39,6 +39,37 @@ interface Sale {
   salesTime: string;
   products: Product[]; // This indicates that the 'products' property is an array of Product objects
 }
+
+// Define the type for a Purchase
+interface Purchase {
+  _id: string;
+  businessName: string;
+  shopName: string;
+  expensesId: number;
+  title: string;
+  date: string;
+  warehouse: string;
+  category: string;
+  amount: string;
+  note: string;
+  description: string;
+}
+// Define the type for a Purchase
+interface Expense {
+  _id: string;
+  businessName: string;
+  shopName: string;
+  expensesId: number;
+  title: string;
+  date: string;
+  warehouse: string;
+  category: string;
+  amount: string;
+  note: string;
+  description: string;
+  img: any;
+}
+
 interface Props {
   label: string;
   icon: string;
@@ -53,6 +84,8 @@ const RevenueCardCom: NextComponentType<NextPageContext, {}, Props> = ({
   const { businessName } = useBusinessNameContext();
   const [sales, setSales] = useState<Sale[]>([]);
   const [products, setProducts] = useState<Product[]>([]);
+  const [purchases, setPurchases] = useState<Purchase[]>([]);
+  const [expenses, setExpenses] = useState<Expense[]>([]);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -142,36 +175,6 @@ const RevenueCardCom: NextComponentType<NextPageContext, {}, Props> = ({
     fetchData();
   }, [businessName]);
 
-  // // Function to calculate total product price including tax and discount
-  // const calculateTotalProductPrice = (products: Product[]): number => {
-  //   let totalProductPrice: number = 0;
-  //   products.forEach((product) => {
-  //     const price =
-  //       product.promotionalStatus === "open" && product.promotionalPrice
-  //         ? parseFloat(product.promotionalPrice)
-  //         : parseFloat(product.price);
-  //     let discount: number;
-  //     if (product.discountType === "percentage") {
-  //       discount = (price * parseFloat(product.discount)) / 100;
-  //     } else if (product.discountType === "amount") {
-  //       discount = parseFloat(product.discount);
-  //     } else {
-  //       discount = 0;
-  //     }
-  //     let tax: number;
-  //     if (product.taxType === "percentage") {
-  //       tax = ((price - discount) * parseFloat(product.tax)) / 100;
-  //     } else if (product.taxType === "amount") {
-  //       tax = parseFloat(product.tax);
-  //     } else {
-  //       tax = 0;
-  //     }
-  //     totalProductPrice +=
-  //       price - discount + (product.taxType === "amount" ? -tax : tax);
-  //   });
-  //   return totalProductPrice;
-  // };
-
   // Function to calculate total cost
   const calculateTotalCost = (products: Product[]): number => {
     let totalCost: number = 0;
@@ -181,13 +184,94 @@ const RevenueCardCom: NextComponentType<NextPageContext, {}, Props> = ({
     return totalCost;
   };
 
+  // GET PURCHASES
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        if (!businessName) {
+          return;
+        }
+        const res = await fetch("/api/dashboard", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ businessName, collectionName: "purchases" }),
+        });
+
+        if (!res.ok) {
+          console.error("Failed to fetch data:", res.status);
+          return;
+        }
+        const data = await res.json();
+        setPurchases(data);
+      } catch (error) {
+        console.error("Failed to fetch data:", error);
+      }
+    };
+    fetchData();
+  }, [businessName]);
+  // Function to calculate total purchase price
+  const calculateTotalPurchasePrice = (purchases: Purchase[]): number => {
+    let totalPurchasePrice: number = 0;
+    purchases.forEach((purchase) => {
+      totalPurchasePrice += parseFloat(purchase.amount);
+    });
+    return totalPurchasePrice;
+  };
+
+  // GET EXPENSES
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        if (!businessName) {
+          return;
+        }
+        const res = await fetch("/api/dashboard", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ businessName, collectionName: "expenses" }),
+        });
+
+        if (!res.ok) {
+          console.error("Failed to fetch data:", res.status);
+          return;
+        }
+        const data = await res.json();
+        setExpenses(data);
+      } catch (error) {
+        console.error("Failed to fetch data:", error);
+      }
+    };
+    fetchData();
+  }, [businessName]);
+
+  // Function to calculate total expenses price
+  const calculateTotalExpensesPrice = (expenses: Expense[]): number => {
+    let totalExpensesPrice: number = 0;
+    expenses.forEach((expense) => {
+      totalExpensesPrice += parseFloat(expense.amount);
+    });
+    return totalExpensesPrice;
+  };
+
+  // Calculate total purchase price
+  const totalPurchasePrice: number = calculateTotalPurchasePrice(purchases);
+  // Calculate total expenses price
+  const totalExpensesPrice: number = calculateTotalExpensesPrice(expenses);
+
   // Calculate total cost
   const totalCost: number = calculateTotalCost(products);
   // Calculate the difference between total product price and total sales price
   const revenueDifference = totalSalesPrice - totalCost;
+  // GET TOTAL GRAND REVENUE
+  const grandRevenue =
+    revenueDifference + totalPurchasePrice + totalExpensesPrice;
 
-  // Format the revenue difference to display with two decimal places
-  const formattedRevenueDifference = revenueDifference.toFixed(2);
+  // Format the Grand revenue difference to display with two decimal places
+  const formattedRevenueDifference = grandRevenue.toFixed(2);
 
   return (
     // min-w-[330px] min-h-[137px]
