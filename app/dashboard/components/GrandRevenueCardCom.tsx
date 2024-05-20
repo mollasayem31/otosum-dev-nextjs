@@ -276,18 +276,16 @@ const RevenueCardCom: NextComponentType<NextPageContext, {}, Props> = ({
   return (
     // min-w-[330px] min-h-[137px]
     <div
-      className={`card card-side min-w-[200px] min-h-[100px]  pr-5 ${bgGradient} bg-black text-white fill-black shadow-xl capitalize`}
+      className={`card card-side min-w-[200px] min-h-[100px]  pr-5 ${
+        grandtotalCost > totalSalesPrice
+          ? "bg-gradient-to-r from-[#DC1818] to-[#FF6565]"
+          : bgGradient
+      } bg-black text-white fill-black shadow-xl capitalize`}
     >
       <div className="card-body">
         <h1 className="font-bold text-md">{label}</h1>
         <div className="font-bold flex flex-col">
-          <span
-            className={`text-2xl ${
-              grandtotalCost > totalSalesPrice && "text-red-500"
-            }`}
-          >
-            ${formattedRevenueDifference}
-          </span>
+          <span className="text-2xl">${formattedRevenueDifference}</span>
         </div>
       </div>
       <figure>
