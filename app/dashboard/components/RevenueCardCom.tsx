@@ -197,7 +197,11 @@ const RevenueCardCom: NextComponentType<NextPageContext, {}, Props> = ({
       <div className="card-body">
         <h1 className="font-bold text-md">{label}</h1>
         <div className="font-bold flex flex-col">
-          <span className="text-2xl">${formattedRevenueDifference}</span>
+          <span
+            className={`text-2xl ${ totalCost > totalSalesPrice && "text-red"}`}
+          >
+            ${formattedRevenueDifference}
+          </span>
         </div>
       </div>
       <figure>
