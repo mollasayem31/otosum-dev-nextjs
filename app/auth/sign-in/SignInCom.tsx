@@ -154,7 +154,7 @@ const SignInCom: NextComponentType<NextPageContext, {}, Props> = (
                   value: "manager",
                 },
                 {
-                  id: 2,
+                  id: 3,
                   value: "employee",
                 },
               ]}

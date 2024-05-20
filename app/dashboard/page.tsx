@@ -125,7 +125,7 @@ const page = () => {
             bgGradient="text-white bg-gradient-to-r from-[#454CEA] to-[#5596CF]"
           />
           <ProductsCardCom
-            label="Total Products"
+            label="Total Products & Cost"
             icon={TotalSalesIcon}
             setDashProducts={setProducts}
             bgGradient="text-white bg-gradient-to-r from-[#F85900] to-[#FAC250]"

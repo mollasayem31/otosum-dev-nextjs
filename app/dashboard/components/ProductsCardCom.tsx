@@ -74,38 +74,50 @@ const ExpensesCardCom: NextComponentType<NextPageContext, {}, Props> = ({
     fetchData();
   }, [businessName]);
 
-  // Function to calculate total product price including tax and discount
-  const calculateTotalProductPrice = (products: Product[]): number => {
-    let totalProductPrice: number = 0;
+  // // Function to calculate total product price including tax and discount
+  // const calculateTotalProductPrice = (products: Product[]): number => {
+  //   let totalProductPrice: number = 0;
+  //   products.forEach((product) => {
+  //     const price =
+  //       product.promotionalStatus === "open" && product.promotionalPrice
+  //         ? parseFloat(product.promotionalPrice)
+  //         : parseFloat(product.price);
+  //     let discount: number;
+  //     if (product.discountType === "percentage") {
+  //       discount = (price * parseFloat(product.discount)) / 100;
+  //     } else if (product.discountType === "amount") {
+  //       discount = parseFloat(product.discount);
+  //     } else {
+  //       discount = 0;
+  //     }
+  //     let tax: number;
+  //     if (product.taxType === "percentage") {
+  //       tax = ((price - discount) * parseFloat(product.tax)) / 100;
+  //     } else if (product.taxType === "amount") {
+  //       tax = parseFloat(product.tax);
+  //     } else {
+  //       tax = 0;
+  //     }
+  //     totalProductPrice +=
+  //       price - discount + (product.taxType === "amount" ? -tax : tax);
+  //   });
+  //   return totalProductPrice;
+  // };
+
+  // // Calculate total product price including tax and discount
+  // const totalProductPrice: number = calculateTotalProductPrice(products);
+
+  // Function to calculate total cost
+  const calculateTotalCost = (products: Product[]): number => {
+    let totalCost: number = 0;
     products.forEach((product) => {
-      const price =
-        product.promotionalStatus === "open" && product.promotionalPrice
-          ? parseFloat(product.promotionalPrice)
-          : parseFloat(product.price);
-      let discount: number;
-      if (product.discountType === "percentage") {
-        discount = (price * parseFloat(product.discount)) / 100;
-      } else if (product.discountType === "amount") {
-        discount = parseFloat(product.discount);
-      } else {
-        discount = 0;
-      }
-      let tax: number;
-      if (product.taxType === "percentage") {
-        tax = ((price - discount) * parseFloat(product.tax)) / 100;
-      } else if (product.taxType === "amount") {
-        tax = parseFloat(product.tax);
-      } else {
-        tax = 0;
-      }
-      totalProductPrice +=
-        price - discount + (product.taxType === "amount" ? -tax : tax);
+      totalCost += parseFloat(product.cost) * parseFloat(product.quantity);
     });
-    return totalProductPrice;
+    return totalCost;
   };
 
-  // Calculate total product price including tax and discount
-  const totalProductPrice: number = calculateTotalProductPrice(products);
+  // Calculate total cost
+  const totalCost: number = calculateTotalCost(products);
 
   return (
     // min-w-[330px] min-h-[137px]
@@ -116,7 +128,7 @@ const ExpensesCardCom: NextComponentType<NextPageContext, {}, Props> = ({
         <h1 className="font-bold text-md">{label}</h1>
         <div className="font-bold flex flex-col">
           <span className=" text-4xl">{products.length}</span>
-          <span className="text-2xl">${totalProductPrice}</span>
+          <span className="text-2xl">${totalCost}</span>
         </div>
       </div>
       <figure>
