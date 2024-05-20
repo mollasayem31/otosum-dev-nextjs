@@ -264,14 +264,14 @@ const RevenueCardCom: NextComponentType<NextPageContext, {}, Props> = ({
 
   // Calculate total cost
   const totalCost: number = calculateTotalCost(products);
+  // Calculate total cost
+  const grandtotalCost: number =
+    totalCost + totalPurchasePrice + totalExpensesPrice;
   // Calculate the difference between total product price and total sales price
-  const revenueDifference = totalSalesPrice - totalCost;
-  // GET TOTAL GRAND REVENUE
-  const grandRevenue =
-    revenueDifference + totalPurchasePrice + totalExpensesPrice;
+  const revenueDifference = totalSalesPrice - grandtotalCost;
 
   // Format the Grand revenue difference to display with two decimal places
-  const formattedRevenueDifference = grandRevenue.toFixed(2);
+  const formattedRevenueDifference = revenueDifference.toFixed(2);
 
   return (
     // min-w-[330px] min-h-[137px]
