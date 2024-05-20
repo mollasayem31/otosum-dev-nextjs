@@ -175,7 +175,7 @@ const RevenueCardCom: NextComponentType<NextPageContext, {}, Props> = ({
   // Calculate total product price including tax and discount
   const totalProductPrice: number = calculateTotalProductPrice(products);
   // Calculate the difference between total product price and total sales price
-  const revenueDifference = Math.abs(totalProductPrice - totalSalesPrice);
+  const revenueDifference = totalProductPrice - totalSalesPrice;
 
   // Format the revenue difference to display with two decimal places
   const formattedRevenueDifference = revenueDifference.toFixed(2);

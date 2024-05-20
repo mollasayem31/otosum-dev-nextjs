@@ -47,7 +47,7 @@ const AuthContextProvider: React.FC<{ children: React.ReactNode }> = ({
   }, [router]);
 
   if (pathName !== "/shop/pos") {
-    localStorage.removeItem("posAccess");
+    () => localStorage.removeItem("posAccess");
   }
 
   const value: IAuthValues = {

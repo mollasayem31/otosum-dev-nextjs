@@ -5,7 +5,6 @@ import OrderSystem from "./OrderSystem/OrderSystemLayout";
 import { PosAuthContextProvider } from "../../context/Auth/PosAuthContext";
 
 const page = () => {
-  localStorage.removeItem("selectedItems");
   return (
     <>
       <PosAuthContextProvider>

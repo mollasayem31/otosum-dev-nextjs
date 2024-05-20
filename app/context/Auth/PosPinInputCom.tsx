@@ -1,6 +1,13 @@
 import { NextComponentType, NextPageContext } from "next";
 import { useRouter } from "next/navigation";
-import React, { useState, useRef, ChangeEvent, useEffect, Dispatch, SetStateAction } from "react";
+import React, {
+  useState,
+  useRef,
+  ChangeEvent,
+  useEffect,
+  Dispatch,
+  SetStateAction,
+} from "react";
 import toast, { Toaster } from "react-hot-toast";
 interface IUser {
   businessName: string;
@@ -10,14 +17,13 @@ interface IUser {
   role: string;
   posPin: number;
 }
-interface Props{
-    setLoad:Dispatch<SetStateAction<boolean | null>>
+interface Props {
+  setLoad: Dispatch<SetStateAction<boolean | null>>;
 }
 
-
-const PosPinInputCom : NextComponentType<NextPageContext, {}, Props> = ({
-    setLoad
-  }) => {
+const PosPinInputCom: NextComponentType<NextPageContext, {}, Props> = ({
+  setLoad,
+}) => {
   const [value, setValue] = useState<string>("0000"); // Initialize with 4 digits 0
   const inputRefs = useRef<HTMLInputElement[]>([]);
   const router = useRouter();
@@ -51,9 +57,9 @@ const PosPinInputCom : NextComponentType<NextPageContext, {}, Props> = ({
 
   const handelConfirm = () => {
     if (userData && Number(userData.posPin) === Number(value)) {
-      localStorage.setItem("posAccess", "access granted");
+      () => localStorage.setItem("posAccess", "access granted");
     }
-    setLoad(true)
+    setLoad(true);
   };
 
   return (
@@ -85,6 +91,6 @@ const PosPinInputCom : NextComponentType<NextPageContext, {}, Props> = ({
       </button>
     </div>
   );
-}
+};
 
 export default PosPinInputCom;

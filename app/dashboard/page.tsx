@@ -1,16 +1,17 @@
 "use client";
 
 /* eslint-disable react-hooks/rules-of-hooks */
-import InfoCardCom from "./InfoCardCom";
+import InfoCardCom from "./components/InfoCardCom";
 import StoreCardCom from "../components/cards/StoreCardCom";
 import TotalSalesIcon from "../../public/icons/totalsalesicon.svg";
 import { useBusinessNameContext } from "@/app/context/businessNameContext";
 import { useEffect, useState } from "react";
-import SalesCardCom from "./SalesCardCom";
-import PurchaseCardCom from "./PurchaseCardCom";
-import ExpensesCardCom from "./ExpensesCardCom";
-import ProductsCardCom from "./ProductsCardCom";
-import RevenueCardCom from "./RevenueCardCom";
+import SalesCardCom from "./components/SalesCardCom";
+import PurchaseCardCom from "./components/PurchaseCardCom";
+import ExpensesCardCom from "./components/ExpensesCardCom";
+import ProductsCardCom from "./components/ProductsCardCom";
+import RevenueCardCom from "./components/RevenueCardCom";
+import SalesListCom from "./components/SalesListCom";
 interface FileData {
   fileName: string;
   fileImage: string;
@@ -96,7 +97,9 @@ const page = () => {
     fetchData();
   }, [businessName, shopName]);
 
-  localStorage.removeItem("shopName");
+  useEffect(() => {
+    localStorage.removeItem("shopName");
+  }, []);
 
   // Function to calculate total cost
   const calculateTotalCost = (products: Product[]): number => {
@@ -161,6 +164,10 @@ const page = () => {
         </div>
       </div>
       {/*STORES SECTION END */}
+      {/* sales list */}
+      <div>
+        <SalesListCom />
+      </div>
     </div>
   );
 };
