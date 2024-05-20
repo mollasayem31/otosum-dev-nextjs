@@ -193,7 +193,7 @@ const RevenueCardCom: NextComponentType<NextPageContext, {}, Props> = ({
     // min-w-[330px] min-h-[137px]
     <div
       className={`card card-side min-w-[200px] min-h-[100px]  pr-5 ${
-        grandtotalCost > totalSalesPrice
+        totalCost > totalSalesPrice
           ? "bg-gradient-to-r from-[#DC1818] to-[#FF6565]"
           : bgGradient
       } bg-black text-white fill-black shadow-xl capitalize`}
