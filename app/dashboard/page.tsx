@@ -130,15 +130,15 @@ const page = () => {
             setDashProducts={setProducts}
             bgGradient="text-white bg-gradient-to-r from-[#F85900] to-[#FAC250]"
           />
-          <ExpensesCardCom
-            label="Total Expenses"
-            icon={TotalSalesIcon}
-            bgGradient="text-white bg-gradient-to-r from-[#DC1818] to-[#FF6565]"
-          />
           <RevenueCardCom
             label="Total Revenue"
             icon={TotalSalesIcon}
             bgGradient="text-white bg-gradient-to-r from-green-500 to-blue-500"
+          />
+          <ExpensesCardCom
+            label="Total Expenses"
+            icon={TotalSalesIcon}
+            bgGradient="text-white bg-gradient-to-r from-[#DC1818] to-[#FF6565]"
           />
           <PurchaseCardCom
             label="Total Purchase"
